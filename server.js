@@ -67,6 +67,13 @@ app.put('/quotes/:id', (req, res) => {
 
 })
 
+app.delete('/quotes/:id', (req, res) => {
+  db.collection('quotes').findOneAndDelete({_id: ObjectID(req.params.id)},
+  (err, result) => {
+    if (err) return res.send(500, err)
+    res.send({message: 'Deleted'})
+  })
+})
 
 MongoClient.connect(mongo_url, (err, client) => {
   if (err) return console.log(err)
