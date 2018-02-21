@@ -3,15 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <title>MY APP</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
 </head>
 <body>
   May Node and Express be with you.
-
+  <div>
+    <h2>Replace last quote written by Master Yoda with a quote written by Darth Vadar</h2>
+    <button id="update"> Darth Vadar invades! </button>
+  </div>
   <ul class="quotes">
-  <% for(var i=0; i<quotes.length; i++) {%>
-    <li class="quote">
-      <span><%= quotes[i].name %></span>
-      <span><%= quotes[i].quote %></span>
+  <% for(var i=0; i<quotes.length; i++) {
+    var name = quotes[i].name
+    var quote = quotes[i].quote
+    var _id = quotes[i]._id
+  %>
+    <li class="quote" onclick="edit('<%= _id %>','<%= name %>', '<%= quote%>')">
+      <span><%= name %></span>
+      <span><b><%= quote %></b></span>
     </li>
   <% } %>
   </ul>
@@ -21,5 +29,7 @@
     <input type="text" placeholder="quote" name="quote">
     <button type="submit">Submit</button>
   </form>
+
+  <script src="main.js"></script>
 </body>
 </html>
