@@ -1,12 +1,13 @@
+require('dotenv').config()
 const express = require('express')
 const app = express()
 const bodyParser= require('body-parser')
 const MongoClient = require('mongodb').MongoClient
-let db
-
-require('dotenv').config()
 
 const mongo_url = `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@ds127132.mlab.com:27132/purwadb`
+let db
+
+app.set('view engine', 'ejs')
 app.use(bodyParser.urlencoded({extended: true}))
 /*
   The urlencoded method within body-parser tells
@@ -14,8 +15,15 @@ app.use(bodyParser.urlencoded({extended: true}))
   and add them to the body property in the request object.
 */
 
-app.get('/', function(req,res) {
-  res.sendFile(__dirname + '/index.html')
+app.get('/', (req, res) => {
+  // console.log(cursor)
+  let cursor = db.collection('quotes').find().toArray((err, quotes) => {
+    if (err) {res.send(err)}
+    res.render('index.ejs', {quotes: quotes})
+  })
+
+
+
 })
 
 app.post('/quotes', (req, res) => {
