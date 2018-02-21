@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const bodyParser= require('body-parser')
 const MongoClient = require('mongodb').MongoClient
+let db
 
 require('dotenv').config()
 
@@ -18,14 +19,18 @@ app.get('/', function(req,res) {
 })
 
 app.post('/quotes', (req, res) => {
-  console.log(req.body)
+  db.collection('quotes').save(req.body, (err, result) => {
+    if (err) return console.log(err)
+    console.log('saved to db')
+    res.redirect('/')
+  })
 })
 
 MongoClient.connect(mongo_url, (err, client) => {
   if (err) return console.log(err)
   console.log('Connected to mongodb')
 
-  db = client.db('star-wars-quotes') //dbname
+  db = client.db('purwadb') //dbname
 
   app.listen(3000, function() {
     console.log('Listening on port 3000')
