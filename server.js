@@ -7,6 +7,7 @@ const ObjectID = require('mongodb').ObjectID
 const cors = require('cors')
 
 const mongo_url = `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@ds127132.mlab.com:27132/purwadb`
+const auth = require('./helpers/auth')
 let db
 
 app.set('view engine', 'ejs')
@@ -73,6 +74,41 @@ app.delete('/quotes/:id', (req, res) => {
     if (err) return res.send(500, err)
     res.send({message: 'Deleted'})
   })
+})
+
+app.post('/register', (req, res) => {
+  let username = req.body.username
+  let password = req.body.password
+
+  if (typeof username === 'undefined' || typeof password === 'undefined' || username === '' || password === '')
+    res.send({err: 'username/password harus diisi'})
+  else {
+    let hashPassword  = auth.hashPassword(password)
+    let user_dt = {
+      username: username,
+      password: hashPassword
+    }
+    db.collection('users').save( user_dt, function(err, result) {
+      if (err) return res.send(500, err)
+      res.send({message: 'user saved'})
+    })
+  }
+})
+
+app.post('/login', function(req,res) {
+  let username = req.body.username
+  let password = req.body.password
+
+  db.collection('users')
+    .findOne({"username": username}, function(err, user) {
+      let login = auth.checkPassword(password, user.password)
+
+      if (login) {
+        res.send('login')
+      } else {
+        res.send('not login')
+      }
+    })
 })
 
 MongoClient.connect(mongo_url, (err, client) => {
