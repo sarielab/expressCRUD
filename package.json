@@ -1,0 +1,29 @@
+{
+  "name": "expresscrud",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sarielab/expressCRUD.git"
+  },
+  "author": "ppsari <poppymighty@gmail.com> (https://github.com/ppsari/)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sarielab/expressCRUD/issues"
+  },
+  "homepage": "https://github.com/sarielab/expressCRUD#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "dotenv": "^5.0.0",
+    "ejs": "^2.5.7",
+    "express": "^4.16.2",
+    "mongodb": "^3.0.2"
+  }
+}
